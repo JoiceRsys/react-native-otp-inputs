@@ -43,7 +43,7 @@ const OtpInput = forwardRef<TextInput, Props>(
     },
     ref,
   ) => {
-    const [focused, setFocused] = useState(false);
+    // const [focused, setFocused] = useState(false);
 
     useEffect(() => {
       (ref as RefObject<TextInput>)?.current?.setNativeProps({
@@ -66,11 +66,11 @@ const OtpInput = forwardRef<TextInput, Props>(
             ios: selectTextOnFocus,
             android: true,
           })}
-          style={{
-              ...inputStyles,
+          style={[inputStyles,
+            {
               borderColor: inputStyles.borderColor === '#E34444' ? inputStyles.borderColor : focused || !!inputValue ? '#414141' :
                   inputStyles.borderColor
-          }}
+          }]}
           textContentType={isOTPSupported ? 'oneTimeCode' : 'none'}
           underlineColorAndroid="transparent"
           secureTextEntry={secureTextEntry}
