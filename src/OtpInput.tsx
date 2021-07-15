@@ -53,7 +53,7 @@ const OtpInput = forwardRef<TextInput, Props>(
     }, [ref, inputValue]);
 
     return (
-      <View style={[inputContainerStyles, focused && focusStyles]}>
+      <View style={[inputContainerStyles]}>
         <TextInput
           onBlur={() => setFocused(false)}
           onChangeText={handleTextChange}
@@ -66,7 +66,11 @@ const OtpInput = forwardRef<TextInput, Props>(
             ios: selectTextOnFocus,
             android: true,
           })}
-          style={inputStyles}
+          style={{
+              ...inputStyles,
+              borderColor: inputStyles.borderColor === '#E34444' ? inputStyles.borderColor : focused || !!inputValue ? '#414141' :
+                  inputStyles.borderColor
+          }}
           textContentType={isOTPSupported ? 'oneTimeCode' : 'none'}
           underlineColorAndroid="transparent"
           secureTextEntry={secureTextEntry}
