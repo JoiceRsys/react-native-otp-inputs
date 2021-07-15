@@ -14,7 +14,6 @@
     "bootstrap": "yarn example && yarn && husky install",
     "example": "yarn --cwd Example",
     "lint": "eslint --ext .js,.ts,.tsx .",
-    "prepare": "bob build",
     "release": "release-it",
     "test": "jest --coverage --runInBand --detectOpenHandles",
     "test:unit": "jest -u",

@@ -15,7 +15,7 @@ type Props = TextInputProps & {
   inputContainerStyles?: StyleProp<ViewStyle>;
   firstInput: boolean;
   focusStyles?: StyleProp<ViewStyle>;
-  inputStyles?: StyleProp<TextStyle>&StyleProp<ViewStyle>;
+  inputStyles?: StyleProp<TextStyle&ViewStyle>;
   numberOfInputs: number;
   handleTextChange: (text: string) => void;
   inputValue: string;
@@ -67,8 +67,8 @@ const OtpInput = forwardRef<TextInput, Props>(
             android: true,
           })}
           style={[inputStyles,{
-              borderColor: inputStyles?.borderColor === '#E34444' ? inputStyles?.borderColor : focused || !!inputValue ? '#414141' :
-                  inputStyles?.borderColor
+              borderColor: inputStyles.borderColor === '#E34444' ? inputStyles.borderColor : focused || !!inputValue ? '#414141' :
+                  inputStyles.borderColor
           }]}
           textContentType={isOTPSupported ? 'oneTimeCode' : 'none'}
           underlineColorAndroid="transparent"
