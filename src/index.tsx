@@ -67,7 +67,7 @@ const OtpInputs = forwardRef<OtpInputsRef, Props>(
       inputContainerStyles,
       inputStyles,
       isRTL = false,
-      keyboardType = 'phone-pad',
+      keyboardType = 'number-pad',
       numberOfInputs = 4,
       placeholder = '',
       secureTextEntry = false,
@@ -144,7 +144,7 @@ const OtpInputs = forwardRef<OtpInputsRef, Props>(
         // Pasted from input accessory
         (Platform.OS === 'ios' && text.length > 1)
       ) {
-        handleInputTextChange(text, index);
+        handleInputTextChange(text.replace(/[^0-9]/g, ""), index);
       }
     };
 
@@ -154,7 +154,7 @@ const OtpInputs = forwardRef<OtpInputsRef, Props>(
       }: NativeSyntheticEvent<TextInputKeyPressEventData>,
       index: number,
     ) => {
-      handleInputTextChange(key === 'Backspace' ? '' : key, index);
+      handleInputTextChange(key === 'Backspace' ? '' : key.replace(/[^0-9]/g, ""), index);
 
       if (Platform.OS === 'android' && !hasKeySupport && !isNaN(parseInt(key)))
         dispatch({ type: 'setHasKeySupport', payload: true });
