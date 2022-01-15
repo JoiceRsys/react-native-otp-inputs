@@ -1,14 +1,10 @@
-import React, { useState, useEffect, forwardRef, RefObject } from 'react';
+import React, { forwardRef, RefObject, useEffect, useState } from 'react';
 import {
-  Platform,
+  NativeSyntheticEvent, Platform,
   StyleProp,
-  TextInput,
-  TextStyle,
+  TextInput, TextInputKeyPressEventData, TextInputProps, TextStyle,
   View,
-  ViewStyle,
-  TextInputProps,
-  NativeSyntheticEvent,
-  TextInputKeyPressEventData,
+  ViewStyle
 } from 'react-native';
 
 type Props = TextInputProps & {
@@ -67,7 +63,7 @@ const OtpInput = forwardRef<TextInput, Props>(
             android: true,
           })}
           style={[inputStyles,{
-              borderColor: inputStyles.borderColor === '#E34444' ? inputStyles.borderColor : focused || !!inputValue ? '#414141' :
+              borderColor: inputStyles.borderColor === '#E34444' ? inputStyles.borderColor : focused || !!inputValue ? inputStyles?.borderColorFilled ?? '#414141' :
                   inputStyles.borderColor
           }]}
           textContentType={isOTPSupported ? 'oneTimeCode' : 'none'}
