@@ -1,4 +1,4 @@
-import React, { forwardRef, RefObject, useEffect, useState } from 'react';
+import React, { forwardRef, RefObject, useCallback, useEffect, useState } from 'react';
 import {
   NativeSyntheticEvent, Platform,
   StyleProp,
@@ -18,6 +18,9 @@ type Props = TextInputProps & {
   handleKeyPress: (
     keyPressEvent: NativeSyntheticEvent<TextInputKeyPressEventData>,
   ) => void;
+  onFocus?: () => void;
+  onBlur?: () => void;
+  index: number;
 };
 
 const majorVersionIOS: number = parseInt(`${Platform.Version}`, 10);
@@ -35,6 +38,9 @@ const OtpInput = forwardRef<TextInput, Props>(
       placeholder,
       selectTextOnFocus,
       secureTextEntry,
+      onFocus,
+      onBlur,
+      index,
       ...rest
     },
     ref,
@@ -42,21 +48,33 @@ const OtpInput = forwardRef<TextInput, Props>(
     const [focused, setFocused] = useState(false);
 
     useEffect(() => {
-      (ref as RefObject<TextInput>)?.current?.setNativeProps({
+      (ref[index] as unknown as RefObject<TextInput>)?.current?.setNativeProps({
         value: inputValue,
         text: inputValue,
       });
-    }, [ref, inputValue]);
+    }, [ref, inputValue, index]);
+
+    const handleOnBlur = useCallback(() => {
+      setFocused(false);
+      const allFocused = ref.some(it => it.current.isFocused());
+      
+      if(!allFocused) {
+        onBlur && onBlur()
+      }
+    },[index])
 
     return (
       <View style={[inputContainerStyles]}>
         <TextInput
-          onBlur={() => setFocused(false)}
           onChangeText={handleTextChange}
-          onFocus={() => setFocused(true)}
+          onFocus={() => {
+            setFocused(true)
+            onFocus && onFocus()
+          }}
+          onBlur={handleOnBlur}
           onKeyPress={handleKeyPress}
           placeholder={placeholder}
-          ref={ref}
+          ref={ref[index]}
           // https://github.com/facebook/react-native/issues/18339
           selectTextOnFocus={Platform.select({
             ios: selectTextOnFocus,

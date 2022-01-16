@@ -1,12 +1,10 @@
 import Clipboard from '@react-native-clipboard/clipboard';
 import React, {
-  RefObject,
-  forwardRef,
-  useCallback,
+  forwardRef, RefObject, useCallback,
   useEffect,
   useImperativeHandle,
   useReducer,
-  useRef,
+  useRef
 } from 'react';
 import {
   Keyboard,
@@ -19,13 +17,13 @@ import {
   TextInputProps,
   TextStyle,
   View,
-  ViewStyle,
+  ViewStyle
 } from 'react-native';
-
-import OtpInput from './OtpInput';
-import { OtpInputsRef, SupportedKeyboardType } from './types';
 import { fillOtpCode } from './helpers';
+import OtpInput from './OtpInput';
 import reducer from './reducer';
+import { OtpInputsRef, SupportedKeyboardType } from './types';
+
 
 const supportAutofillFromClipboard =
   Platform.OS === 'android' || parseInt(Platform.Version as string, 10) < 14;
@@ -139,6 +137,7 @@ const OtpInputs = forwardRef<OtpInputsRef, Props>(
     };
 
     const handleTextChange = (text: string, index: number) => {
+      
       if (
         (Platform.OS === 'android' && !hasKeySupport) ||
         // Pasted from input accessory
@@ -260,6 +259,7 @@ const OtpInputs = forwardRef<OtpInputsRef, Props>(
             inputStyles={inputStyles}
             inputValue={inputValue}
             key={inputIndex}
+            index={inputIndex}
             keyboardType={keyboardType}
             maxLength={Platform.select({
               android: 1,
@@ -267,7 +267,7 @@ const OtpInputs = forwardRef<OtpInputsRef, Props>(
             })}
             numberOfInputs={numberOfInputs}
             placeholder={placeholder}
-            ref={inputs.current[inputIndex]}
+            ref={inputs.current}
             secureTextEntry={secureTextEntry}
             selectTextOnFocus={selectTextOnFocus}
             accessible
