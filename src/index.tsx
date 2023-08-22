@@ -6,6 +6,7 @@ import React, {
   useReducer,
   useRef
 } from 'react';
+import Clipboard from '@react-native-clipboard/clipboard';
 import {
   Keyboard,
   NativeSyntheticEvent,
@@ -99,7 +100,7 @@ const OtpInputs = forwardRef<OtpInputsRef, Props>(
           dispatch({ type: 'clearOtp', payload: numberOfInputs });
           inputs.current.forEach((input) => input?.current?.clear());
           previousCopiedText.current = '';
-          // Clipboard.setString('');
+          Clipboard.setString('');
         },
         focus: (): void => {
           const firstInput = inputs.current[0];
@@ -196,7 +197,7 @@ const OtpInputs = forwardRef<OtpInputsRef, Props>(
     );
 
     const listenOnCopiedText = useCallback(async (): Promise<void> => {
-      // const copiedText = await Clipboard.getString();
+      const copiedText = await Clipboard.getString();
       const otpCodeValue = Object.values(otpCode).join('');
 
       if (
